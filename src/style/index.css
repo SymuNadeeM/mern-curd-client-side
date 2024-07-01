@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #a7e6ff;
+}
+
+.input-field {
+  @apply w-full h-9 px-3 py-[6px] rounded-md outline-none border border-gray-400 focus:border-blue-500;
+}
+
+.label-field {
+  @apply text-sm text-gray-600 font-medium;
+}

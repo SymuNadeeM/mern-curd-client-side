@@ -1,9 +1,10 @@
 import "../src/style/index.css";
+import InputForm from "./pages/InputForm";
 
 function App() {
   return (
     <>
-      <div className=" text-red-700 font-bold text-3xl">Hello CRUD</div>
+      <InputForm />
     </>
   );
 }
