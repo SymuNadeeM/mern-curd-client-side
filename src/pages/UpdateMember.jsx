@@ -1,16 +1,14 @@
-import axios from "axios";
-import { useState } from "react";
-import MemberServices from "../services/MemberServices";
 
-axios.defaults.baseURL = "http://localhost:8080/";
+import { useState } from 'react';
+import MemberServices from '../services/MemberServices';
 
-const InputForm = () => {
+const UpdateMember = ({_id,name,mobile,email}) => {
+  
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    mobile: ""
+    name: name,
+    email: email,
+    mobile: mobile
   });
-
   const handleOnChange = (e) => {
     const { value, name } = e.target;
     setFormData((prev) => ({
@@ -18,31 +16,22 @@ const InputForm = () => {
       [name]: value
     }));
   };
+  const handleUpdate =async(e)=>{
+    e.preventDefault()
+   try {
+    const res = await MemberServices.updateMembers({id:_id, ...formData})
+    console.log(res);
+    
+   } catch (error) {
+    console.error("Error submitting form:", error);
+   }
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const data = await MemberServices.createMembers(formData)
-      console.log(data);
-      setFormData({
-        name: "",
-        email: "",
-        mobile: ""
-      });
-      alert("Create successfully")
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
-  };
 
   return (
     <>
-    <div className="px-5">
-      <div className="max-w-[580px] mx-auto p-8 mt-20 bg-white shadow-xl rounded-xl">
-         <div className="pb-4 border-b border-neutral-300">
-         <h2 className="text-4xl text-gray-700 font-bold">Create member info</h2>
-         </div>
-        <form onSubmit={handleSubmit} className="space-y-2 mt-5">
+    <div>
+      <form onSubmit={handleUpdate} className="space-y-2 mt-5">
           <div className="space-y-1">
             <label htmlFor="name" className="label-field">Name:</label>
             <input
@@ -77,13 +66,12 @@ const InputForm = () => {
             />
           </div>
          <div className="pt-5">
-         <button type="submit" className="w-full h-9 rounded-lg bg-blue-500 hover:bg-blue-700 duration-200 text-white font-semibold">Submit</button>
+         <button type="submit" className="w-full h-9 rounded-lg bg-blue-500 hover:bg-blue-700 duration-200 text-white font-semibold">update</button>
          </div>
         </form>
-      </div>
-      </div>
+        </div>   
     </>
   );
 };
 
-export default InputForm;
+export default UpdateMember;

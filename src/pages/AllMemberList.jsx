@@ -1,15 +1,18 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import { FaRegEdit } from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import MemberServices from "../services/MemberServices";
+import UpdateMember from "./UpdateMember";
 
 const AllMemberList = () => {
   const [dataList, setDataList] = useState([]);
+  const [editMode, setEditeMode] = useState(null)
 
   const getAllDataList = async () => {
     try {
-      const data = await axios.get("/");
-      console.log(data);
-      setDataList(data.data);
-      
+      const res = await MemberServices.getAllMembers()
+      console.log(res);
+      setDataList(res.data);
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -18,23 +21,67 @@ const AllMemberList = () => {
   useEffect(() => {
     getAllDataList();
   }, []);
+ 
+ const updateClickMember = (id)=>{
+  setEditeMode(id)
+ }
+
+console.log(editMode);
 
   console.log(dataList);
   return (
     <>
-      <div className="px-5">
-        <div className="max-w-[580px] mx-auto p-8 mt-20 bg-white shadow-xl rounded-xl">
+      <div className="px-5 lg:mb-20">
+        <div className="max-w-[1000px] mx-auto p-8 mt-20 bg-white shadow-xl rounded-xl">
           <div className="pb-4 border-b border-neutral-300">
             <h2 className="text-4xl text-gray-700 capitalize font-bold">
               All member List
             </h2>
+            
           </div>
-          <div>
-            {dataList?.data?.map((dataList,index)=>(
-              <div key={index}>
-                <h4>{dataList.name}</h4>
-              </div>
-            ))}
+          <div className="mt-10">
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+              <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-100">
+                  <tr>
+                    <th scope="col" className="px-6 py-3">
+                      name
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Color
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Category
+                    </th>
+
+                    <th scope="col" className="px-6 py-3">
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {dataList.map((dataList, index) => (
+                    <tr key={index} className="border-b border-neutral-400">
+                      <td className="px-6 py-4">{dataList.name}</td>
+                      <td className="px-6 py-4">{dataList.email}</td>
+                      <td className="px-6 py-4">{dataList.mobile}</td>
+                      <td className="px-6 py-4 flex items-center gap-5">
+                         <button onClick={()=>updateClickMember(dataList._id)} >
+                          <FaRegEdit />
+                          </button>
+                         <button>
+                          <RiDeleteBin6Line />
+                          </button>
+                      </td>
+                      {
+                        editMode === dataList._id &&  <UpdateMember {...dataList} />
+                      }
+                    </tr>
+                    
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
