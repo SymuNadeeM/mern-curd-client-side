@@ -1,12 +1,12 @@
-import "../src/style/index.css";
-import AllMemberList from "./pages/AllMemberList";
-import InputForm from "./pages/InputForm";
+import { RouterProvider } from "react-router-dom";
+import router from "./routes";
+import "./style/index.css";
+
 
 function App() {
   return (
     <>
-      <InputForm />
-      <AllMemberList />
+     <RouterProvider router={router} />
     </>
   );
 }
