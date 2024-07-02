@@ -26,9 +26,15 @@ const AllMemberList = () => {
   setEditeMode(id)
  }
 
-console.log(editMode);
-
-  console.log(dataList);
+ const deleteClickMember = async(id)=>{
+  try {
+    const res = await MemberServices.deleteMembers(id)
+    console.log(res);
+    
+   } catch (error) {
+    console.error("Error submitting form:", error);
+   }
+ }
   return (
     <>
       <div className="px-5 lg:mb-20">
@@ -70,7 +76,7 @@ console.log(editMode);
                           <FaRegEdit />
                           </button>
                          <button>
-                          <RiDeleteBin6Line />
+                          <RiDeleteBin6Line onClick={()=>deleteClickMember(dataList._id)} />
                           </button>
                       </td>
                       {
