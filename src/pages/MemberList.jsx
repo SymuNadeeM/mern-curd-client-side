@@ -4,7 +4,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import MemberServices from "../services/MemberServices";
 import UpdateMember from "./UpdateMember";
 
-const AllMemberList = () => {
+const MemberList = () => {
   const [dataList, setDataList] = useState([]);
   const [editMode, setEditeMode] = useState(null)
 
@@ -97,4 +97,4 @@ const AllMemberList = () => {
   );
 };
 
-export default AllMemberList;
+export default MemberList;

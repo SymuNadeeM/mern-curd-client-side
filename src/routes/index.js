@@ -1,18 +1,23 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "../layouts/Layout";
 import InputForm from "../pages/InputForm";
+import MemberList from "../pages/MemberList";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: <Layout /> ,
     children: [
       {
         index: true,
-        element: <InputForm /> ,
+        element: <MemberList /> ,
       },
-      
+      {
+        path: "/create-member",
+        element: <InputForm />,
+      },
     ],
+    
   },
 ]);
 
