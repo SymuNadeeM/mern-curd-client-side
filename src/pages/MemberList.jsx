@@ -1,98 +1,121 @@
 import { useEffect, useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { Link } from "react-router-dom";
 import MemberServices from "../services/MemberServices";
 import UpdateMember from "./UpdateMember";
 
 const MemberList = () => {
   const [dataList, setDataList] = useState([]);
-  const [editMode, setEditeMode] = useState(null)
+  const [editMode, setEditMode] = useState(false);
+  const [selectedMember, setSelectedMember] = useState(null);
 
   const getAllDataList = async () => {
     try {
-      const res = await MemberServices.getAllMembers()
+      const res = await MemberServices.getAllMembers();
       console.log(res);
       setDataList(res.data);
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error("Error fetching data:", error);
     }
   };
 
   useEffect(() => {
     getAllDataList();
   }, []);
- 
- const updateClickMember = (id)=>{
-  setEditeMode(id)
- }
 
- const deleteClickMember = async(id)=>{
-  try {
-    const res = await MemberServices.deleteMembers(id)
-    console.log(res);
-    
-   } catch (error) {
-    console.error("Error submitting form:", error);
-   }
- }
+  const updateClickMember = (member) => {
+    setSelectedMember(member);
+    setEditMode(true);
+  };
+
+  const closeModal = () => {
+    setEditMode(false);
+    setSelectedMember(null);
+  };
+
+  const deleteClickMember = async (id) => {
+    try {
+      const res = await MemberServices.deleteMembers(id);
+      console.log(res);
+      getAllDataList(); 
+    } catch (error) {
+      console.error("Error deleting member:", error);
+    }
+  };
+
   return (
     <>
       <div className="px-5 lg:mb-20">
         <div className="max-w-[1000px] mx-auto p-8 mt-20 bg-white shadow-xl rounded-xl">
-          <div className="pb-4 border-b border-neutral-300">
+          <div className="pb-4 border-b border-neutral-300 flex items-center justify-between">
             <h2 className="text-4xl text-gray-700 capitalize font-bold">
-              All member List
+              All Member List
             </h2>
-            
+            <Link to={"/create-member"}>Add Member</Link>
           </div>
-          {dataList[0] ? 
-          <div className="mt-10">
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-              <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-100">
-                  <tr>
-                    <th scope="col" className="px-6 py-3">
-                      name
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Color
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Category
-                    </th>
-
-                    <th scope="col" className="px-6 py-3">
-                      Action
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {dataList.map((dataList, index) => (
-                    <tr key={index} className="border-b border-neutral-400">
-                      <td className="px-6 py-4">{dataList.name}</td>
-                      <td className="px-6 py-4">{dataList.email}</td>
-                      <td className="px-6 py-4">{dataList.mobile}</td>
-                      <td className="px-6 py-4 flex items-center gap-5">
-                         <button onClick={()=>updateClickMember(dataList._id)} >
-                          <FaRegEdit />
-                          </button>
-                         <button>
-                          <RiDeleteBin6Line onClick={()=>deleteClickMember(dataList._id)} />
-                          </button>
-                      </td>
-                      {
-                        editMode === dataList._id &&  <UpdateMember {...dataList} />
-                      }
+          {dataList.length > 0 ? (
+            <div className="mt-10">
+              <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                  <thead className="text-xs text-gray-700 uppercase bg-gray-100">
+                    <tr>
+                      <th scope="col" className="px-6 py-3">
+                        Name
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Email
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Mobile
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Action
+                      </th>
                     </tr>
-                    
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {dataList.map((member, index) => (
+                      <tr key={index} className="border-b border-neutral-400">
+                        <td className="px-6 py-4">{member.name}</td>
+                        <td className="px-6 py-4">{member.email}</td>
+                        <td className="px-6 py-4">{member.mobile}</td>
+                        <td className="px-6 py-4 flex items-center gap-5">
+                          <button
+                            onClick={() => updateClickMember(member)}
+                            className="open-with-modal"
+                          >
+                            <FaRegEdit />
+                          </button>
+                          <button>
+                            <RiDeleteBin6Line
+                              onClick={() => deleteClickMember(member._id)}
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
-          : (<p>No Data is Here</p>) }
+          ) : (
+            <p>No Data is Here</p>
+          )}
         </div>
       </div>
+
+      {editMode && selectedMember && (
+        <UpdateMember
+          isOpen={editMode}
+          onClose={closeModal}
+          _id={selectedMember._id}
+          name={selectedMember.name}
+          email={selectedMember.email}
+          mobile={selectedMember.mobile}
+          reloadData={getAllDataList}
+        />
+      )}
     </>
   );
 };

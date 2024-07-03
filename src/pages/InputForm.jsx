@@ -1,10 +1,11 @@
-import axios from "axios";
+
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import MemberServices from "../services/MemberServices";
 
-axios.defaults.baseURL = "http://localhost:8080/";
 
 const InputForm = () => {
+  const navigate = useNavigate(); 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -30,6 +31,7 @@ const InputForm = () => {
         mobile: ""
       });
       alert("Create successfully")
+      navigate("/")
     } catch (error) {
       console.error("Error submitting form:", error);
     }
