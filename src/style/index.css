@@ -7,7 +7,7 @@
 }
 
 body {
-  background-color: #a7e6ff;
+  background-color: #102c57;
 }
 
 .input-field {
@@ -16,4 +16,7 @@ body {
 
 .label-field {
   @apply text-sm text-gray-600 font-medium;
+}
+.custom-tbody tr:last-child {
+  border-bottom: none;
 }
