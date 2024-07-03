@@ -2,7 +2,8 @@
 // import Cookies from "js-cookie";
 
 const instance = axios.create({
-  baseURL: "http://localhost:8080/",
+  // baseURL: "http://localhost:8080/",
+  baseURL: "https://mern-crud-server-wctc.onrender.com",
   timeout: 30000,
   headers: {
     Accept: "application/json",
