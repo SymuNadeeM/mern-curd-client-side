@@ -40,8 +40,8 @@ const MemberList = () => {
     try {
       const res = await MemberServices.deleteMembers(id);
       console.log(res);
-      alert("Delete member")
-      getAllDataList(); 
+      alert("Delete member");
+      getAllDataList();
     } catch (error) {
       console.error("Error deleting member:", error);
     }
@@ -56,9 +56,14 @@ const MemberList = () => {
               All Member List
             </h2>
             <div className="flex items-center justify-end mt-2.5 md:mt-0">
-            <Link to={"/create-member"}>             
-            <button type="button" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-1.5 md:py-2.5 text-center me-2 mb-2 flex items-center gap-3"><MdOutlineBookmarkAdded size={22}/> <span>Add Member</span></button>
-            </Link>
+              <Link to={"/create-member"}>
+                <button
+                  type="button"
+                  className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-1.5 md:py-2.5 text-center me-2 mb-2 flex items-center gap-3"
+                >
+                  <MdOutlineBookmarkAdded size={22} /> <span>Add Member</span>
+                </button>
+              </Link>
             </div>
           </div>
           {dataList.length > 0 ? (
@@ -83,7 +88,10 @@ const MemberList = () => {
                   </thead>
                   <tbody className="custom-tbody">
                     {dataList.map((member, index) => (
-                      <tr key={index} className="text-sm border-b border-neutral-400">
+                      <tr
+                        key={index}
+                        className="text-sm border-b border-neutral-400"
+                      >
                         <td className="px-6 py-4">{member.name}</td>
                         <td className="px-6 py-4">{member.email}</td>
                         <td className="px-6 py-4">{member.mobile}</td>
@@ -111,11 +119,22 @@ const MemberList = () => {
           ) : (
             <div className="mt-5 p-4 bg-[#FF4A4A] rounded flex items-center justify-center">
               <div className="flex items-center gap-3">
-              <ImFilesEmpty size={22} className="text-white" />
-              <h4 className=" text-white font-medium">No Data is Here</h4>
+                <ImFilesEmpty size={22} className="text-white" />
+                <h4 className=" text-white font-medium">No Data is Here</h4>
               </div>
             </div>
           )}
+
+          <div className="flex items-center justify-end mt-5">
+            <Link to={"./add-details"}>
+              <button
+                type="button"
+                className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-1.5 md:py-2.5 text-center me-2 mb-2 flex items-center gap-3"
+              >
+                <MdOutlineBookmarkAdded size={22} /> <span>Add Details</span>
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
 

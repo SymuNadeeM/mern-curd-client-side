@@ -1,5 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 // import router from "./routes";
+import AddDetails from "./pages/AddDetails";
 import InputForm from "./pages/InputForm";
 import MemberList from "./pages/MemberList";
 import "./style/index.css";
@@ -13,6 +14,10 @@ function App() {
     {
       path: "/create-member",
       element: <InputForm />,
+    },
+    {
+      path: "/add-details",
+      element: <AddDetails />,
     },
   ]);
   return (
